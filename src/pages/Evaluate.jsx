@@ -152,10 +152,11 @@ export default function Evaluate() {
         
         setTimeout(() => {
           try {
-            const rawCandidates = resumes.map((r, i) => ({ id: `c${i+1}`, rawText: r.text }));
+            const rawCandidates = resumes.map(r => r.text);
             const evalTitle = jdTitle || 'Untitled Evaluation';
             
-            const results = Engine.runAnalysis(jdText, rawCandidates, evalTitle);
+            const results = Engine.runAnalysis(jdText, rawCandidates);
+            if (jdTitle) results.title = evalTitle; // override title if provided
             
             saveEvaluation(results);
             AppState.currentEval = results;
